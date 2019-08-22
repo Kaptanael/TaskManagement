@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Serialization;
 using System.Text;
 using TaskManagement.Data.DataContext;
 using TaskManagement.Data.Repository;
 using TaskManagement.Data.UnitOfWork;
-using TaskManagement.Model;
 
 namespace TaskManagement.Api
 {
@@ -30,7 +30,7 @@ namespace TaskManagement.Api
 
             services.AddMvc()
                 .AddJsonOptions(opt =>
-                {
+                {                    
                     opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 });
 
@@ -47,7 +47,7 @@ namespace TaskManagement.Api
             //services.AddTransient<Seed>();
 
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
-            services.AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork));            
+            services.AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork));
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -91,7 +91,7 @@ namespace TaskManagement.Api
 
             app.UseCors(c => c.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
-            app.UseAuthentication();
+            //app.UseAuthentication();
 
             app.UseMvc();
         }

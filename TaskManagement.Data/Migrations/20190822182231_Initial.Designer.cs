@@ -11,7 +11,7 @@ using TaskManagement.Data.DataContext;
 namespace TaskManagement.Data.Migrations
 {
     [DbContext(typeof(TaskManagementDbContext))]
-    [Migration("20190821144344_Initial")]
+    [Migration("20190822182231_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

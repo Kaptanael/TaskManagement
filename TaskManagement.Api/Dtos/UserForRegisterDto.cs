@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace TaskManagement.Model
+namespace TaskManagement.Api.Dtos
 {
-    [Table("User")]
-    public class User
+    public class UserForRegisterDto
     {
-        [Key]
-        public int Id { get; set; }
-
         [Required, MaxLength(64)]
         public string FirstName { get; set; }
 
@@ -20,17 +17,16 @@ namespace TaskManagement.Model
         [Required, MaxLength(64)]
         public string Email { get; set; }
 
-        public byte[] PasswordHash { get; set; }
-
-        public byte[] PasswordSalt { get; set; }
+        [Required]
+        [MinLength(4),MaxLength(8)]
+        public string Password { get; set; }
 
         [Required, MaxLength(14)]
         public string MobileNumber { get; set; }
 
         [Required]
         [MaxLength(512)]
-        public string Address { get; set; } 
-
-        public ICollection<UserTask> Tasks { get; set; }
+        public string Address { get; set; }
+        
     }
 }
