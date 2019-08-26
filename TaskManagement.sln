@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagement.Model", "TaskManagement.Model\TaskManagement.Model.csproj", "{C8B47648-361F-4A73-A457-2A082EA56DF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManagement.Model", "TaskManagement.Model\TaskManagement.Model.csproj", "{C8B47648-361F-4A73-A457-2A082EA56DF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagement.Data", "TaskManagement.Data\TaskManagement.Data.csproj", "{E7B5E527-EC8C-4B87-9E09-CDB70C5D5E09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManagement.Data", "TaskManagement.Data\TaskManagement.Data.csproj", "{E7B5E527-EC8C-4B87-9E09-CDB70C5D5E09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagement.Service", "TaskManagement.Service\TaskManagement.Service.csproj", "{71214B5E-5943-4F93-AE9D-123C05ABF05D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManagement.Service", "TaskManagement.Service\TaskManagement.Service.csproj", "{71214B5E-5943-4F93-AE9D-123C05ABF05D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagement.Api", "TaskManagement.Api\TaskManagement.Api.csproj", "{C8B7C0D5-A310-49ED-8BB8-9493FD736A24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManagement.Api", "TaskManagement.Api\TaskManagement.Api.csproj", "{C8B7C0D5-A310-49ED-8BB8-9493FD736A24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
