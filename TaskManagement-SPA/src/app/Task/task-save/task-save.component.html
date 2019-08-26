@@ -1,0 +1,56 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">Task</div>
+      <div class="card-body">
+        <form [formGroup]="taskFormGroup" (ngSubmit)="onTaskSave()" novalidate>
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" name="Name" placeholder="Name" formControlName="name"
+              tabindex="1" pTooltip="Maximum 64 characters" tooltipPosition="top" tooltipEvent="focus"
+              (blur)="onNameBlur($event.target.value)" required>
+          </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" id="description" name="description" placeholder="Description" rows="3"
+              formControlName="description" tabindex="2" pTooltip="Maximum 512 characters" tooltipPosition="top"
+              tooltipEvent="focus" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="startDate">Start Date</label>
+            <p-calendar class="form-control p-0" id="startDate" name="startDate" placeholder="Start Date"
+              formControlName="startDate" tabindex="3" dateFormat="mm-dd-yy" 
+              [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2030" [showIcon]="false"
+              placeholder="MM-DD-YYYY" required>
+            </p-calendar>
+          </div>
+          <div class="form-group">
+            <label for="endDate">End Date</label>
+            <p-calendar class="form-control p-0" id="endDate" name="endDate" placeholder="End Date"
+              formControlName="endDate" tabindex="4" dateFormat="mm-dd-yy" 
+              [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2030" [showIcon]="false"
+              placeholder="MM-DD-YYYY" required>
+            </p-calendar>
+          </div>
+          <div class="form-group">
+            <label for="userId">Assigned To</label>
+            <select id="userId" name="userId" class="form-control" formControlName="userId" placeholder="Assigned To"
+              tabindex="5" required>
+              <option value="">- Select -</option>
+              <option *ngFor="let user of users" value="{{user.userId}}">{{user.name}}</option>
+            </select>
+          </div>
+          <div class="form-group text-center">
+            <button class="btn btn btn-success" type="submit" pTooltip="Fill out form with valid info."
+              tooltipPosition="left" [tooltipDisabled]="taskFormGroup.valid" [disabled]="taskFormGroup.invalid"
+              tabindex="6">Save</button>
+            <button class="btn btn-default" type="button" tabindex="7" (click)="onTaskClear()">Clear</button>
+            <button class="btn btn-default" type="button" tabindex="8" (click)="goBack()">Back</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-growl [value]="growlMessage"></p-growl>

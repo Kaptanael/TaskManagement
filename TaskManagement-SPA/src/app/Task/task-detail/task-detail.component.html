@@ -1,0 +1,40 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">{{selectedTask?.name | titlecase}} Detail</div>
+      <div class="card-body">
+        <table>
+          <tr>
+            <td><strong>Name:</strong> </td>
+            <td>{{selectedTask?.name | titlecase}}</td>
+          </tr>
+          <tr>
+            <td><strong>Description: </strong></td>
+            <td>{{selectedTask?.description}}</td>
+          </tr>
+          <tr>
+            <td><strong>Start Date: </strong></td>
+            <td>{{selectedTask?.startDate | date:'MM-dd-yyyy'}}</td>
+          </tr>
+          <tr>
+            <td><strong>End Date: </strong></td>
+            <td>{{selectedTask?.endDate | date:'MM-dd-yyyy'}}</td>
+          </tr>
+          <tr>
+            <td><strong>Assigned To: </strong></td>
+            <td>{{selectedTask?.userName}}</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="form-group mt-3">
+                <button class="btn btn btn-success" type="button" tabindex="8" (click)="goBack()">Back</button>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-growl [value]="growlMessage"></p-growl>

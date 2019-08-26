@@ -1,0 +1,54 @@
+<form [formGroup]="registerFormGroup" (ngSubmit)="register()" novalidate>
+  <div class="form-group">
+    <label for="firstName">First Name</label>
+    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name"
+      formControlName="firstName" tabindex="1" pTooltip="Maximum 64 characters" tooltipPosition="top"
+      tooltipEvent="focus" required>
+  </div>
+  <div class="form-group">
+    <label for="lastName">Last Name</label>
+    <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name"
+      formControlName="lastName" tabindex="2" pTooltip="Maximum 64 characters" tooltipPosition="top"
+      tooltipEvent="focus" required>
+  </div>
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input type="email" class="form-control" id="email" name="email" placeholder="Email" formControlName="email"
+      (blur)="onEmailBlur($event.target.value)" tabindex="3" pTooltip="Maximum 64 characters" tooltipPosition="top"
+      tooltipEvent="focus" required>
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" class="form-control" id="password" name="password" placeholder="Password"
+      formControlName="password" tabindex="4" pTooltip="Minimun 4 characters and maximum 8 characters"
+      tooltipPosition="top" tooltipEvent="focus" required>
+  </div>
+  <div class="form-group">
+    <label for="retypePassword">Retype Password</label>
+    <input type="password" class="form-control" id="retypePassword" name="retypePassword" placeholder="Retype Password"
+      formControlName="retypePassword" tabindex="5" required>
+    <div class="alert-danger"
+      *ngIf="registerFormGroup.hasError('mismatch')  && registerFormGroup.get('retypePassword').touched">
+      Password does not match
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="mobileNumber">Mobile Number</label>
+    <input type="text" class="form-control" id="mobileNumber" name="mobileNumber" placeholder="Mobile Number"
+      formControlName="mobileNumber" tabindex="6" pTooltip="Minimun 11 characters and maximum 14 characters"
+      tooltipPosition="top" tooltipEvent="focus" required>
+  </div>
+  <div class="form-group">
+    <label for="address">Address</label>
+    <textarea class="form-control" id="address" name="address" rows="3" formControlName="address" placeholder="Address"
+      tabindex="7" pTooltip="Maximum 512 characters" tooltipPosition="top" tooltipEvent="focus" required></textarea>
+  </div>
+  <div class="form-group text-center">
+    <button class="btn btn-success" type="submit" tabindex="8" pTooltip="Fill out form with valid info."
+      tooltipPosition="left" [tooltipDisabled]="registerFormGroup.valid"
+      [disabled]="registerFormGroup.invalid">Register</button>
+    <button class="btn btn-default" type="button" tabindex="9" (click)="goBack()">Cancel</button>
+  </div>
+</form>
+
+<p-growl [value]="growlMessage"></p-growl>
