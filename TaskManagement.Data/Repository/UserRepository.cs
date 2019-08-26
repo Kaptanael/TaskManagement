@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Extensions.Internal;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TaskManagement.Data.DataContext;
@@ -18,7 +20,19 @@ namespace TaskManagement.Data.Repository
         public TaskManagementDbContext TaskManagementDbContext
         {
             get { return _context as TaskManagementDbContext; }
-        }        
+        }
+        
+        public async Task<object> GetAllUserName()
+        {
+            var users = await _context.Users
+                .Select(u => new
+                {
+                    u.Id,
+                    Name = u.FirstName + u.LastName,
+                }).ToListAsync();
+
+            return users;
+        }
 
         public async Task<User> Login(string email, string password)
         {

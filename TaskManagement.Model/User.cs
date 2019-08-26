@@ -29,7 +29,10 @@ namespace TaskManagement.Model
 
         [Required]
         [MaxLength(512)]
-        public string Address { get; set; } 
+        public string Address { get; set; }
+
+        [Required, MaxLength(64)]
+        public string Role { get; set; }
 
         public ICollection<UserTask> Tasks { get; set; }
     }

@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace TaskManagement.Model
+namespace TaskManagement.Api.Dtos
 {
-    [Table("Task")]
-    public class UserTask
+    public class TaskDto
     {
-        [Key]
         public int Id { get; set; }
 
         [Required, MaxLength(64)]
         public string Name { get; set; }
+
+        [Required, MaxLength(64)]
+        public string OldName { get; set; }
 
         [Required, MaxLength(512)]
         public string Description { get; set; }
@@ -24,11 +25,7 @@ namespace TaskManagement.Model
         [Required]
         public DateTime EndDate { get; set; }
 
-        public User User { get; set; }
-
+        [Required]
         public int UserId { get; set; }
-
-        [NotMapped]
-        public string UserName { get; set; }
     }
 }

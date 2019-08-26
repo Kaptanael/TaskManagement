@@ -24,7 +24,7 @@ namespace TaskManagement.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetValues()
         {
-            var values = await _uow.Values.GetAllAsync();
+            var values = await _uow.Values.GetAllTaskWithUser();
 
             return Ok(values);
         }

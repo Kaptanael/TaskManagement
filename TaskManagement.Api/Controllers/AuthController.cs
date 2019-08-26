@@ -20,11 +20,34 @@ namespace TaskManagement.Api.Controllers
         private readonly IConfiguration _configuration;
         private readonly ILogger _logger;
 
-        public AuthController(IUnitOfWork uow, IConfiguration configuration, ILogger<ValuesController> logger)
+        public AuthController(IUnitOfWork uow, IConfiguration configuration, ILogger<AuthController> logger)
         {
             _uow = uow;
             _configuration = configuration;
             _logger = logger;
+        }
+
+        [Route("emailExist")]
+        [HttpGet]
+        public async Task<IActionResult> IsEmailExist(string email)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(email))
+                {
+                    return BadRequest();
+                }
+                if (await _uow.Users.UserExists(email))
+                {
+                    return Ok(true);
+                }
+                return Ok(false);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500);
+            }
         }
 
         [HttpPost("register")]
@@ -50,7 +73,8 @@ namespace TaskManagement.Api.Controllers
                     LastName = userForRegisterDto.LastName,
                     Email = userForRegisterDto.Email,
                     MobileNumber = userForRegisterDto.MobileNumber,
-                    Address = userForRegisterDto.Address
+                    Address = userForRegisterDto.Address,
+                    Role = userForRegisterDto.Role
                 };
 
                 var createdUser = await _uow.Users.Register(userToCreate, userForRegisterDto.Password);
@@ -61,11 +85,11 @@ namespace TaskManagement.Api.Controllers
             {
                 _logger.LogError(ex.Message);
                 return StatusCode(500);
-            }            
+            }
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
+        public async Task<IActionResult> Login([FromBody]UserForLoginDto userForLoginDto)
         {
             if (userForLoginDto == null || string.IsNullOrEmpty(userForLoginDto.Email))
             {
@@ -83,8 +107,9 @@ namespace TaskManagement.Api.Controllers
 
                 var claims = new[]
                 {
-                    new Claim(ClaimTypes.NameIdentifier,userFromRepo.Id.ToString()),
-                    new Claim(ClaimTypes.Email,userFromRepo.Email)
+                    new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),
+                    new Claim(ClaimTypes.Name,userFromRepo.FirstName + " " + userFromRepo.LastName),
+                    new Claim(ClaimTypes.Role,userFromRepo.Role)
                 };
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
@@ -95,7 +120,7 @@ namespace TaskManagement.Api.Controllers
                 {
                     Subject = new ClaimsIdentity(claims),
                     Expires = DateTime.Now.AddDays(1),
-                    SigningCredentials = credential
+                    SigningCredentials = credential                   
                 };
 
                 var tokenHandler = new JwtSecurityTokenHandler();
@@ -104,7 +129,9 @@ namespace TaskManagement.Api.Controllers
 
                 return Ok(new
                 {
-                    token = tokenHandler.WriteToken(token)
+                    token = tokenHandler.WriteToken(token),
+                    id= userFromRepo.Id.ToString(),
+                    role = userFromRepo.Role
                 });
             }
             catch (Exception ex)
