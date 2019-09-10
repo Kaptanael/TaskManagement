@@ -30,7 +30,7 @@ namespace TaskManagement.Api.Controllers
         {
             try
             {
-                var users = await _uow.Users.GetAllTaskWithUser();
+                var users = await _uow.Users.GetAllAsync();
 
                 var usersToReturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
 
@@ -48,7 +48,7 @@ namespace TaskManagement.Api.Controllers
         {
             try
             {
-                var user = await _uow.Users.GetAsync(id);
+                var user = await _uow.Users.GetByIdAsync(id);
 
                 var userToReturn = _mapper.Map<UserForListDto>(user);
 
@@ -66,7 +66,7 @@ namespace TaskManagement.Api.Controllers
         {
             try
             {
-                var users = await _uow.Users.GetAllTaskWithUser();
+                var users = await _uow.Users.GetAllAsync();
 
                 List<UserForNameDto> userNamesToReturn = new List<UserForNameDto>();
 

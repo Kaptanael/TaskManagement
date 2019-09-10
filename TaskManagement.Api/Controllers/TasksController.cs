@@ -160,7 +160,7 @@ namespace TaskManagement.Api.Controllers
         {
             try
             {
-                var task = await _uow.Tasks.GetAsync(id);
+                var task = await _uow.Tasks.GetByIdAsync(id);
 
                 if (task == null)
                 {

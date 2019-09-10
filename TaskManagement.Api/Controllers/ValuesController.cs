@@ -1,10 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
+using TaskManagement.Api.Dtos.Value;
 using TaskManagement.Data.DataContext;
 using TaskManagement.Data.Repository;
 using TaskManagement.Data.UnitOfWork;
+using TaskManagement.Model;
 
 namespace TaskManagement.Api.Controllers
 {
@@ -23,28 +27,93 @@ namespace TaskManagement.Api.Controllers
         
         [HttpGet]
         public async Task<IActionResult> GetValues()
-        {
-            var values = await _uow.Values.GetAllTaskWithUser();
-
-            return Ok(values);
+        {   
+            try
+            {
+                var values = await _uow.Values.GetAllAsync();
+                return Ok(values);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500);
+            }
         }
         
         [HttpGet("{id}")]
         public async Task<IActionResult> GetValue(int id)
-        {
-            var value = await _uow.Values.GetAsync(id);
-
-            return Ok(value);
+        {   
+            try
+            {
+                var value = await _uow.Values.GetByIdAsync(id);
+                return Ok(value);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500);
+            }
         }
-        
-        [HttpPost]
-        public void Post([FromBody] string value)
+
+        [HttpPost("addValue")]        
+        public async Task<IActionResult> Post([FromBody] ValueForCreateDto valueForCreateDto)
         {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest();
+                }
+
+                if (await _uow.Values.IsDuplicateAsync(valueForCreateDto.Name))
+                {
+                    return BadRequest("Value already exists");
+                }
+
+                var valueToCreate = new Value
+                {
+                    Name = valueForCreateDto.Name
+                };
+
+                var createdValue = await _uow.Values.AddAsync(valueToCreate);
+                return StatusCode(201);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500);
+            }
         }
         
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(int id, [FromBody] ValueForUpdateDto valueForUpdateDto)
         {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest();
+                }
+
+                var valueToUpdate = new Value
+                {
+                    Id = valueForUpdateDto.Id,
+                    Name = valueForUpdateDto.Name
+                };                
+
+                if (await _uow.Values.IsDuplicateAsync(valueForUpdateDto.Name))
+                {
+                    return BadRequest("Value already exists");
+                }
+
+                var updatedValue = _uow.Values.Update(valueToUpdate);
+                return StatusCode(201);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500);
+            }
         }
         
         [HttpDelete("{id}")]
