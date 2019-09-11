@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using TaskManagement.Data.DataContext;
 using TaskManagement.Data.Repository;
@@ -70,13 +71,13 @@ namespace TaskManagement.Data.UnitOfWork
             return result;
         }
 
-        public async Task<int> SaveAsync()
+        public async Task<int> SaveAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             int result = 0;
 
             try
             {
-                result = await _context.SaveChangesAsync();
+                result = await _context.SaveChangesAsync(cancellationToken);
             }
             catch (Exception ex)
             {

@@ -1,4 +1,4 @@
-﻿namespace TaskManagement.Api.Dtos.Value
+﻿namespace TaskManagement.Dto.Value
 {
     public class ValueForUpdateDto
     {

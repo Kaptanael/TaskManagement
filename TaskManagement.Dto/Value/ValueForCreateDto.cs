@@ -1,8 +1,7 @@
-﻿namespace TaskManagement.Api.Dtos.Value
+﻿namespace TaskManagement.Dto.Value
 {
     public class ValueForCreateDto
-    {    
-
+    {        
         public string Name { get; set; }
 
     }

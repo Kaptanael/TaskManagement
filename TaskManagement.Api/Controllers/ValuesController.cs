@@ -1,27 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
-using TaskManagement.Api.Dtos.Value;
-using TaskManagement.Data.DataContext;
-using TaskManagement.Data.Repository;
 using TaskManagement.Data.UnitOfWork;
+using TaskManagement.Dto.Value;
 using TaskManagement.Model;
+using TaskManagement.Service;
 
 namespace TaskManagement.Api.Controllers
 {
     [Route("api/[controller]")]
     public class ValuesController : ControllerBase
     {
-        private readonly IUnitOfWork _uow;
-        //private readonly IMapper _mapper;
+        private readonly IValueService _valueService;        
         private readonly ILogger _logger;
-        public ValuesController(IUnitOfWork uow, ILogger<ValuesController> logger)
+        public ValuesController(IValueService valueService , ILogger<ValuesController> logger)
         {
-            _uow = uow;
-            //_mapper = mapper;
+            _valueService = valueService;            
             _logger = logger;
         }
         
@@ -30,7 +25,7 @@ namespace TaskManagement.Api.Controllers
         {   
             try
             {
-                var values = await _uow.Values.GetAllAsync();
+                var values = await _valueService.GetAllAsync();
                 return Ok(values);
             }
             catch (Exception ex)
@@ -45,7 +40,13 @@ namespace TaskManagement.Api.Controllers
         {   
             try
             {
-                var value = await _uow.Values.GetByIdAsync(id);
+                var value = await _valueService.GetByIdAsync(id);
+
+                if (value == null)
+                {
+                    return NotFound();
+                }
+
                 return Ok(value);
             }
             catch (Exception ex)
@@ -65,17 +66,12 @@ namespace TaskManagement.Api.Controllers
                     return BadRequest();
                 }
 
-                if (await _uow.Values.IsDuplicateAsync(valueForCreateDto.Name))
+                if (await _valueService.IsDuplicateAsync(valueForCreateDto.Name))
                 {
-                    return BadRequest("Value already exists");
+                    return BadRequest("Duplicate");
                 }
 
-                var valueToCreate = new Value
-                {
-                    Name = valueForCreateDto.Name
-                };
-
-                var createdValue = await _uow.Values.AddAsync(valueToCreate);
+                await _valueService.AddAsync(valueForCreateDto);
                 return StatusCode(201);
             }
             catch (Exception ex)
@@ -90,24 +86,20 @@ namespace TaskManagement.Api.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
+                if (!ModelState.IsValid || id!=valueForUpdateDto.Id)
                 {
                     return BadRequest();
                 }
 
-                var valueToUpdate = new Value
-                {
-                    Id = valueForUpdateDto.Id,
-                    Name = valueForUpdateDto.Name
-                };                
+                var selectedValue = await _valueService.GetByIdAsync(id);
 
-                if (await _uow.Values.IsDuplicateAsync(valueForUpdateDto.Name))
+                if (selectedValue == null)
                 {
-                    return BadRequest("Value already exists");
+                    return NotFound();
                 }
 
-                var updatedValue = _uow.Values.Update(valueToUpdate);
-                return StatusCode(201);
+                _valueService.Update(valueForUpdateDto);
+                return NoContent();
             }
             catch (Exception ex)
             {
@@ -117,8 +109,31 @@ namespace TaskManagement.Api.Controllers
         }
         
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            try
+            {
+                var selectedValue = await _valueService.GetByIdAsync(id);
+
+                if (selectedValue == null)
+                {
+                    return NotFound();
+                }
+
+                var valueToDeleted = new ValueForDeleteDto
+                {
+                    Id = selectedValue.Id,
+                    Name = selectedValue.Name
+                };                
+
+                var deletedValue = _valueService.Delete(valueToDeleted);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500);
+            }
         }
     }
 }

@@ -8,4 +8,14 @@
     <Folder Include="Interfaces\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TaskManagement.Data\TaskManagement.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="TaskManagement.Dto">
+      <HintPath>..\TaskManagement.Dto\bin\Debug\netcoreapp2.0\TaskManagement.Dto.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

@@ -1,6 +1,6 @@
-﻿namespace TaskManagement.Api.Dtos.Value
+﻿namespace TaskManagement.Dto.Value
 {
-    public class ValueForListDto
+    public class ValueForDeleteDto
     {
         public int Id { get; set; }
 

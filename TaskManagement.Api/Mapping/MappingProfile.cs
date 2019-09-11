@@ -1,9 +1,5 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using TaskManagement.Api.Dtos;
+using TaskManagement.Dto.Task;
 using TaskManagement.Model;
 
 namespace TaskManagement.Api.Mapping

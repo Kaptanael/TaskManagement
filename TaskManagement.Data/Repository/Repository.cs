@@ -17,20 +17,20 @@ namespace TaskManagement.Data.Repository
             _context = context;
         }
 
-        public async Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<TEntity> AddAsync(TEntity entity)
         {
             await _context.AddAsync(entity);
             return entity;
         }
 
         public TEntity Update(TEntity entity)
-        {
+        {            
             _context.Update(entity);
             return entity;
         }
 
         public TEntity Delete(TEntity entity)
-        {
+        {            
             _context.Remove(entity);
             return entity;
         }

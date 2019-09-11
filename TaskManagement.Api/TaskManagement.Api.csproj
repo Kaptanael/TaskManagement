@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
@@ -19,7 +19,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TaskManagement.Data\TaskManagement.Data.csproj" />
+    <ProjectReference Include="..\TaskManagement.Service\TaskManagement.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>    
+    <Reference Include="TaskManagement.Data">
+      <HintPath>..\TaskManagement.Data\bin\Debug\netcoreapp2.0\TaskManagement.Data.dll</HintPath>
+    </Reference>    
+    <Reference Include="TaskManagement.Dto">
+      <HintPath>..\TaskManagement.Dto\bin\Debug\netcoreapp2.0\TaskManagement.Dto.dll</HintPath>
+    </Reference>
+    <Reference Include="TaskManagement.Model">
+      <HintPath>..\TaskManagement.Model\bin\Debug\netcoreapp2.0\TaskManagement.Model.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

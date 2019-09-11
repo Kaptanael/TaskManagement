@@ -8,7 +8,7 @@ namespace TaskManagement.Data.Repository
 {
     public interface IRepository<TEntity> where TEntity : class
     {
-        Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken = default(CancellationToken));
+        Task<TEntity> AddAsync(TEntity entity);
 
         TEntity Update(TEntity entity);
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using TaskManagement.Data.Repository;
 
@@ -12,6 +13,6 @@ namespace TaskManagement.Data.UnitOfWork
         ITaskRepository Tasks { get; }
         IValueRepository Values { get; }
         int Save();
-        Task<int> SaveAsync();
+        Task<int> SaveAsync(CancellationToken cancellationToken = default(CancellationToken));
     }
 }
